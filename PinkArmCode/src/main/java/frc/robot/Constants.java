@@ -55,7 +55,7 @@ public final class Constants {
         public static final double kElevatorKd = 0;
 
         public static final double kRotKp = 1;
-        public static final double kRotKi = 0;
+        public static final double kRotKi = 0.5;
         public static final double kRotKd = 0;
     
         public static final double kElevatorkS = 0.0; // volts (V)

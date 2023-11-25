@@ -98,8 +98,8 @@ public class ArmIOSim implements ArmIO {
         m_Encoder1.setPosition(m_elevatorSim.getPositionMeters() * ArmConstants.sparkMaxEncoderRotPerMeter);
         m_elevatorSim.setInput(m_motorController1.get() * RobotController.getBatteryVoltage());
         elevatorPos = m_elevatorSim.getPositionMeters();
-        curShoulder.setLength(ArmConstants.minExtensionLength + elevatorPos); //actually updates
-        curShoulder.setAngle(inputs.shoulderAngleRad*180/Math.PI);
+        curShoulder.setLength(ArmConstants.minExtensionLength + inputs.extensionPositionMeters); //use elevatorPos during teleop
+        curShoulder.setAngle((inputs.shoulderAngleRad*180/Math.PI)%360);
         
         RoboRioSim.setVInVoltage(
             BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevatorSim.getCurrentDrawAmps()));

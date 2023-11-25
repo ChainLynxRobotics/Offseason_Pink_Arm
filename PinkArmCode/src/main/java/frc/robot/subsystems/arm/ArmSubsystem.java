@@ -5,7 +5,6 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.arm.ArmIO.ArmIOInputs;
 
@@ -16,7 +15,7 @@ public class ArmSubsystem extends SubsystemBase {
   ArmIOInputs inputs = new ArmIOInputs();
   ArmIO armIO;
   
-  /** Creates a new ArmSubsystem. */
+
   public ArmSubsystem(ArmIO armIO) {
     this.armIO = armIO; 
     armIO.initializeInputs();
@@ -25,13 +24,6 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     armIO.updateInputs(inputs);
-
-    if (Robot.isSimulation()) {
-      if (targetPose != null) {
-        inputs.shoulderAngleRad = targetPose.getShoulderAngleRad();
-        inputs.extensionPositionMeters = targetPose.getExtensionLengthMeters();
-      }
-    }
   }
 
   public void setAngleInput(double angleRad) {

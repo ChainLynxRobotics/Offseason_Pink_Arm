@@ -7,9 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArmPIDSimCommand;
 import frc.robot.commands.ArmSimCommand;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmIOSparkMax;
+import frc.robot.subsystems.arm.ArmPositions;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -52,7 +54,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new ArmSimCommand(m_arm);
+    return new ArmPIDSimCommand(m_arm, new ArmPositions(Math.PI/4, 2));
   }
 
   public ArmSubsystem getArm() {
