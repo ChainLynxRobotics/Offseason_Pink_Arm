@@ -1,5 +1,6 @@
 package frc.robot.subsystems.arm;
 
+
 public class ArmPositions {
     private double shoulderAngleRad = 0;
     private double extensionLengthMeters = 0;
