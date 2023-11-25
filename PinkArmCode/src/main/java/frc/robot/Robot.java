@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ArmSimCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -46,12 +47,10 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
-  /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
-
-  @Override
-  public void disabledPeriodic() {}
+  public void simulationPeriodic() {
+    
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -79,9 +78,19 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //only call when updateInputs in subsystem is not called
+    /* 
+    if (Robot.isSimulation()) {
+      if (m_robotContainer.getStick().getRawAxis(1) != 0) {
+        m_robotContainer.getArm().reachGoal(0.75, Math.PI/2);
+      } else {
+        m_robotContainer.getArm().reachGoal(5, 0);
+      }
+    }*/
+  }
+
 
   @Override
   public void testInit() {
@@ -92,4 +101,12 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+
+  @Override
+  public void disabledInit() {
+    // This just makes sure that our simulation code knows that the motor's off.
+    m_robotContainer.getArm().stop();
+  }
+
 }

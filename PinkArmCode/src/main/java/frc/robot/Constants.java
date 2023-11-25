@@ -19,13 +19,28 @@ public final class Constants {
     
     //placeholders, in meters
     public static class ArmConstants {
-        public static final double PIVOT_X_OFFSET = 0;
-        public static final double PIVOT_Y_OFFSET = 0;
+        public static final double PIVOT_X_OFFSET = 2.5;
+        public static final double PIVOT_Y_OFFSET = 2.5;
         public static final double INIT_ELEVATOR_LENGTH = 0.1;
+        public static final double minExtensionLength = 0.5;
+        public static final double maxExtensionLength = 1;
+
+        public static final double shoulderGearRatio = 100;
+        public static final double sparkMaxTicksPerRev = 2048;
+        public static final double sparkMaxEncoderRotPerMeter = 15;
+        public static final double sparkMaxCurrentLimit = 60; //amps
+        public static final double rotConversionFactor = 2*Math.PI/(shoulderGearRatio*sparkMaxTicksPerRev);
+
+        public static final double armExtensionError = 0.1;
+        public static final double armAngleError = 0.1;
+
+        public static final double minMomentOfInertia = 1; //kg*m^2, full retraction
+        public static final double maxMomentofInertia = 5; //full extension
 
         public static final double kElevatorGearing = 10.0;
         public static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);
         public static final double kCarriageMass = 4.0; // kg
+        public static final double kTotalMass = 9.0;
 
         public static final double kSetpointMeters = 0.75;
         // Encoder is reset to measure 0 at the bottom, so minimum height is 0.
@@ -38,7 +53,11 @@ public final class Constants {
         public static final double kElevatorKp = 5;
         public static final double kElevatorKi = 0;
         public static final double kElevatorKd = 0;
-      
+
+        public static final double kRotKp = 1;
+        public static final double kRotKi = 0;
+        public static final double kRotKd = 0;
+    
         public static final double kElevatorkS = 0.0; // volts (V)
         public static final double kElevatorkG = 0.762; // volts (V)
         public static final double kElevatorkV = 0.762; // volt per velocity (V/(m/s))
