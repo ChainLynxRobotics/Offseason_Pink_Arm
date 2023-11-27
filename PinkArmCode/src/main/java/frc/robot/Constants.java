@@ -32,8 +32,8 @@ public final class Constants {
         public static final double kMinElevatorHeightMeters = 0.0;
         public static final double kMaxElevatorHeightMeters = 1.25;
 
-        public static final int controller1port = 0;
-        public static final int controller2port = 1;
+        public static final int controller1Id = 0;
+        public static final int controller2Id = 1;
 
         public static final double kElevatorKp = 5;
         public static final double kElevatorKi = 0;
@@ -46,5 +46,14 @@ public final class Constants {
 
         public static final double maxVelElevator = 2.45; //m/s
         public static final double maxAccelElevator = 2.45; //m/s²
+
+        public static class Simulation {
+            public static final double simWidth = 6;
+            public static final double sinHeight = 6;
+            public static final double rootX = 3;
+            public static final double rootY = 0;
+            public static final double armLength = kMinElevatorHeightMeters;
+            public static final double armWidth = 0.1;
+        }
     }
 }
