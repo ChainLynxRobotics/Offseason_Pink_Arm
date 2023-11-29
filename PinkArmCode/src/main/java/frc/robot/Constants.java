@@ -19,8 +19,8 @@ public final class Constants {
     
     //placeholders, in meters
     public static class ArmConstants {
-        public static final double SIM_WIDTH = 5
-        public static final double SIM_HEIGHT = 5
+        public static final double SIM_WIDTH = 5;
+        public static final double SIM_HEIGHT = 5;
         public static final double PIVOT_X_OFFSET = 3;
         public static final double PIVOT_Y_OFFSET = 0;
         public static final double INIT_ELEVATOR_LENGTH = 0.1;

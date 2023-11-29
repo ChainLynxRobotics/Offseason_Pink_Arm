@@ -45,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase implements AutoClosable {
 
   private Pose2d calcCurrentPose(double armLengthMeters, double shoulderAngleRad) {
     throw new UnsupportedOperationException("unimplemented");
-  }
+  }0
 
   private boolean checkValidState(double targetShoulderAngle, double targetExtensionLength) {
     throw new UnsupportedOperationException("unimplemented");
