@@ -22,10 +22,6 @@ public class ArmSubsystem extends SubsystemBase {
     armIO.updateInputs(inputs);
   }
 
-  public void setAngleInput(double angleRad) {
-    inputs.shoulderAngleRad = angleRad;
-  }
-
   public void setExtensionOutput(Joystick stick, int axis) {
     armIO.setMotorOutput(stick.getRawAxis(axis));
     System.out.println("axis value: " + stick.getRawAxis(axis));
