@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArmPIDSimCommand;
-import frc.robot.commands.ArmSimCommand;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmIOSparkMax;
 import frc.robot.subsystems.arm.ArmPositions;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,6 +27,7 @@ public class RobotContainer {
   private final ArmSubsystem m_arm;
   private final Joystick joystick = new Joystick(Constants.joystick1Port);
 
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -33,8 +35,9 @@ public class RobotContainer {
       m_arm = new ArmSubsystem(new ArmIOSparkMax());
     } else {
       m_arm = new ArmSubsystem(new ArmIOSim());
-      
     }
+
+    m_arm.setDefaultCommand(new RunCommand(()  -> m_arm.reachGoal(joystick.getRawAxis(0), joystick.getRawAxis(1)), m_arm));
 
     configureButtonBindings();
   }

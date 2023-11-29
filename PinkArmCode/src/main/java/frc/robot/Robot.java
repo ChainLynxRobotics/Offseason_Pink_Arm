@@ -77,6 +77,10 @@ public class Robot extends TimedRobot {
     }
   }
 
+  public double test() {
+    return 2.0;
+  }
+
   @Override
   public void teleopPeriodic() {
     //only call when updateInputs in subsystem is not called

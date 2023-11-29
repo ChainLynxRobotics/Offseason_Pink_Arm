@@ -28,8 +28,8 @@ public final class Constants {
         public static final double shoulderGearRatio = 100;
         public static final double sparkMaxTicksPerRev = 2048;
         public static final double sparkMaxEncoderRotPerMeter = 15;
-        public static final double sparkMaxCurrentLimit = 60; //amps
-        public static final double rotConversionFactor = 2*Math.PI/(shoulderGearRatio*sparkMaxTicksPerRev);
+        public static final int sparkMaxCurrentLimit = 60; //amps
+        public static final double rotConversionFactor = 2*Math.PI/shoulderGearRatio;
 
         public static final double armExtensionError = 0.1;
         public static final double armAngleError = 0.1;
@@ -49,6 +49,7 @@ public final class Constants {
 
         public static final int controller1port = 0;
         public static final int controller2port = 1;
+        public static final int controller3port = 2;
 
         public static final double kElevatorKp = 5;
         public static final double kElevatorKi = 0;

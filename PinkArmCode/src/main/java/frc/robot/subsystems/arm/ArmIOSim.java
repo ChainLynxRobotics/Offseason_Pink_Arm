@@ -69,7 +69,7 @@ public class ArmIOSim implements ArmIO {
 
   private final CANSparkMax m_motorController1 = new CANSparkMax(ArmConstants.controller1port, MotorType.kBrushless);
   private final CANSparkMax m_motorController2 = new CANSparkMax(ArmConstants.controller2port, MotorType.kBrushless);
-  private final CANSparkMax m_rotMotorController = new CANSparkMax(2, MotorType.kBrushless);
+  private final CANSparkMax m_rotMotorController = new CANSparkMax(ArmConstants.controller3port, MotorType.kBrushless);
 
   private final RelativeEncoder m_Encoder1 = m_motorController1.getEncoder();
   private final RelativeEncoder m_rotEncoder =  m_rotMotorController.getEncoder();
@@ -95,7 +95,7 @@ public class ArmIOSim implements ArmIO {
 
     @Override
     public void updateInputs(ArmIOInputs inputs) {
-        m_Encoder1.setPosition(m_elevatorSim.getPositionMeters() * ArmConstants.sparkMaxEncoderRotPerMeter);
+        m_Encoder1.setPosition(m_elevatorSim.getPositionMeters() * ArmConstants.sparkMaxEncoderRotPerMeter); //could also set position conversion factor
         m_elevatorSim.setInput(m_motorController1.get() * RobotController.getBatteryVoltage());
         elevatorPos = m_elevatorSim.getPositionMeters();
         curShoulder.setLength(ArmConstants.minExtensionLength + inputs.extensionPositionMeters); //use elevatorPos during teleop
@@ -139,10 +139,15 @@ public class ArmIOSim implements ArmIO {
            ArmConstants.sparkMaxCurrentLimit);
     }
 
+
+    @Override
+    public void setMotorOutput(double output) {
+        m_motorController1.set(output);
+    }
+
     @Override
     public void setTargetShoulderAngle(double angleRad) {
         rotationController.setSetpoint(angleRad / ArmConstants.rotConversionFactor);
-
         double pidOutput = rotationController.calculate(m_rotEncoder.getPosition());
         m_rotMotorController.setVoltage(pidOutput);
     }

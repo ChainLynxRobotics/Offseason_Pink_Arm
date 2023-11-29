@@ -15,6 +15,8 @@ public interface ArmIO {
     public default void setShoulderVoltage(double volts) {}
 
     public default void setExtensionVoltage(double volts) {}
+
+    public default void setMotorOutput(double output) {}
   
     public default void setBrakeMode(boolean shoulderBrake) {}
 

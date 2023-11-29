@@ -4,6 +4,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.arm.ArmIO.ArmIOInputs;
@@ -28,6 +29,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setAngleInput(double angleRad) {
     inputs.shoulderAngleRad = angleRad;
+  }
+
+  public void setExtensionOutput(Joystick stick, int axis) {
+    armIO.setMotorOutput(stick.getRawAxis(axis));
+    System.out.println("axis value: " + stick.getRawAxis(axis));
   }
 
   public void reachGoal(double extension, double angle) {
@@ -67,5 +73,4 @@ public class ArmSubsystem extends SubsystemBase {
   public void stop() {
     armIO.stop();
   }
-
 }
