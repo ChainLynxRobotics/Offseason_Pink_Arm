@@ -67,24 +67,22 @@ public class ArmIOSim implements ArmIO {
     @AutoLogOutput
     private double elevatorPos;
 
-  private final CANSparkMax m_motorController1 = new CANSparkMax(ArmConstants.controller1port, MotorType.kBrushless);
-  private final CANSparkMax m_motorController2 = new CANSparkMax(ArmConstants.controller2port, MotorType.kBrushless);
-  private final CANSparkMax m_rotMotorController = new CANSparkMax(ArmConstants.controller3port, MotorType.kBrushless);
+    private final CANSparkMax m_motorController1 = new CANSparkMax(ArmConstants.controller1port, MotorType.kBrushless);
+    private final CANSparkMax m_motorController2 = new CANSparkMax(ArmConstants.controller2port, MotorType.kBrushless);
+    private final CANSparkMax m_rotMotorController = new CANSparkMax(ArmConstants.controller3port, MotorType.kBrushless);
 
-  private final RelativeEncoder m_Encoder1 = m_motorController1.getEncoder();
-  private final RelativeEncoder m_rotEncoder =  m_rotMotorController.getEncoder();
-  private final REVPhysicsSim r = new REVPhysicsSim(); //REV is incompatible with default hardware sim, so update encoders from here
+    private final RelativeEncoder m_Encoder1 = m_motorController1.getEncoder();
+    private final RelativeEncoder m_rotEncoder =  m_rotMotorController.getEncoder();
+    private final REVPhysicsSim r = new REVPhysicsSim(); //REV is incompatible with default hardware sim, so update encoders from here
 
-  private final Mechanism2d curMech = new Mechanism2d(5, 5);
-  private final MechanismRoot2d curRoot =
-            curMech.getRoot("arm", ArmConstants.PIVOT_X_OFFSET, ArmConstants.PIVOT_Y_OFFSET);
-  @AutoLogOutput
-  private final MechanismLigament2d curShoulder = curRoot.append(
-    new MechanismLigament2d("targetShoulder", 1, 60, 10, new Color8Bit(Color.kRed)));
+    private final Mechanism2d curMech = new Mechanism2d(5, 5);
+    private final MechanismRoot2d curRoot =
+                curMech.getRoot("arm", ArmConstants.PIVOT_X_OFFSET, ArmConstants.PIVOT_Y_OFFSET);
+    @AutoLogOutput
+    private final MechanismLigament2d curShoulder = curRoot.append(
+        new MechanismLigament2d("targetShoulder", 1, 60, 10, new Color8Bit(Color.kRed)));
 
-    
-    @Override
-    public void initializeInputs() {
+    public ArmIOSim() {
         SmartDashboard.putData("mech screen", curMech);
         r.addSparkMax(m_motorController1, m_gearbox);
         r.addSparkMax(m_motorController2, m_gearbox);
@@ -92,6 +90,7 @@ public class ArmIOSim implements ArmIO {
 
         m_motorController2.follow(m_motorController1);
     }
+
 
     @Override
     public void updateInputs(ArmIOInputs inputs) {
@@ -143,6 +142,12 @@ public class ArmIOSim implements ArmIO {
     @Override
     public void setMotorOutput(double output) {
         m_motorController1.set(output);
+    }
+
+    @Override
+    public void setTargetPose(ArmIOInputs inputs, ArmPositions pose) {
+        inputs.extensionPositionMeters = pose.getExtensionLengthMeters();
+        inputs.shoulderAngleRad = pose.getShoulderAngleRad();
     }
 
     @Override

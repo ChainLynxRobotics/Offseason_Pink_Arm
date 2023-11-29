@@ -1,10 +1,8 @@
 package frc.robot.subsystems.arm;
-
 import org.littletonrobotics.junction.AutoLog;
 
+
 public interface ArmIO {
-    /** update the values of all ArmIO inputs*/
-    public default void initializeInputs() {}
 
     public default void updateInputs(ArmIOInputs inputs) {}
 
@@ -19,6 +17,8 @@ public interface ArmIO {
     public default void setMotorOutput(double output) {}
   
     public default void setBrakeMode(boolean shoulderBrake) {}
+
+    public default void setTargetPose(ArmIOInputs inputs, ArmPositions pose) {}
 
     public default void stop() {}
 
