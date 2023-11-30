@@ -1,82 +1,70 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
-import org.littletonrobotics.junction.AutoLogOutput;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.REVPhysicsSim;
-import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N2;
-import edu.wpi.first.math.numbers.N4;
-import edu.wpi.first.math.system.NumericalIntegration;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.simulation.BatterySim;
-import edu.wpi.first.wpilibj.simulation.ElevatorSim;
-import edu.wpi.first.wpilibj.simulation.RoboRioSim;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.arm.ArmIO.ArmIOInputs;
 
-public class ArmSubsystem extends SubsystemBase implements AutoClosable {
-  @AutoLogOutput
-  private final Mechanism2d mechanism;
-  @AutoLogOutput
-  private final MechanismRoot2d root;
-  @AutoLogOutput
-  private final MechanismLigament2d ligament;
-  private final DCMotor m_eleatorGearbox = DCMotor.getNeo550(numMotors 2);
-  private final CANSparkMax m_elevatorMotor = new CANSparkMax(ArmConstants.controller1port, CANSparkMaxLowLevel.MotorType.kBrushless);
-  /** Creates a new ArmSubsystem. */
-  public ArmSubsystem() {
-    mechanism = new Mechanism2d(
-    ArmConstants.SIM_HEIGHT,
-    ArmConstants.SIM_WIDTH
-    );
-    root = new MechanismRoot2d(mechanism.getRoot("arm", ArmConstants.PIVOT_X_OFFSET, ArmConstants.PIVOT_Y_OFFSET));
-    ligament = new MechanismLigament2d("ligament", 3, 0, 5, new Color8Bit(Color.kWhite));
+public class ArmSubsystem extends SubsystemBase {
+
+  ArmIOInputs inputs = new ArmIOInputs();
+  ArmIO armIO;
+  
+
+  public ArmSubsystem(ArmIO armIO) {
+    this.armIO = armIO; 
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    if (Robot.isSimulation()) {
+    armIO.updateInputs(inputs);
+  }
 
-    } else {
+  public void setExtensionOutput(Joystick stick, int axis) {
+    armIO.setMotorOutput(stick.getRawAxis(axis));
+    System.out.println("axis value: " + stick.getRawAxis(axis));
+  }
 
+  public void reachGoal(double extension, double angle) {
+    armIO.setTargetExtensionLength(extension);
+    armIO.setTargetShoulderAngle(angle);
+  }
+
+
+  public Pose2d calcCurrentPose(double armLengthMeters, double shoulderAngleRad) {
+    double x = ArmConstants.PIVOT_X_OFFSET + armLengthMeters * Math.cos(shoulderAngleRad);
+    double y = ArmConstants.PIVOT_Y_OFFSET + armLengthMeters * Math.sin(shoulderAngleRad);
+
+    return new Pose2d(x, y, new Rotation2d(shoulderAngleRad));
+  }
+
+  public ArmPositions calcTargetPose(Pose2d target) {
+    double x = target.getX() - ArmConstants.PIVOT_X_OFFSET;
+    double y = target.getY() - ArmConstants.PIVOT_Y_OFFSET;
+    double extensionDist = Math.hypot(x, y);
+
+    return new ArmPositions(Math.asin(y / extensionDist), extensionDist);
+  }
+
+  public boolean atTarget(Pose2d target) {
+    if (Math.abs(calcTargetPose(target).getExtensionLengthMeters() - inputs.extensionPositionMeters) < ArmConstants.armExtensionError &&
+        Math.abs(calcTargetPose(target).getShoulderAngleRad() - inputs.shoulderAngleRad) < ArmConstants.armAngleError) {
+          return true;
     }
+    return false;
   }
   public void periodicSim() {
     
   }
 
-  public void setTarget(double length) {
-    
-  }
-  public void setTargetPose(Pose3d targetPose, Pose2d currentPose) {
+  public ArmIOInputs getInputs() {
+    return inputs;
   }
 
-  private Pose2d calcCurrentPose(double armLengthMeters, double shoulderAngleRad) {
-    throw new UnsupportedOperationException("unimplemented");
-  }
-
-  private boolean checkValidState(double targetShoulderAngle, double targetExtensionLength) {
-    throw new UnsupportedOperationException("unimplemented");
+  public void stop() {
+    armIO.stop();
   }
   @Override
   public void close() throws Exception {

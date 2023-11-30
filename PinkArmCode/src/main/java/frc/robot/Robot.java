@@ -46,12 +46,10 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
-  /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
-
-  @Override
-  public void disabledPeriodic() {}
+  public void simulationPeriodic() {
+    
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -79,9 +77,23 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /** This function is called periodically during operator control. */
+  public double test() {
+    return 2.0;
+  }
+
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //only call when updateInputs in subsystem is not called
+    /* 
+    if (Robot.isSimulation()) {
+      if (m_robotContainer.getStick().getRawAxis(1) != 0) {
+        m_robotContainer.getArm().reachGoal(0.75, Math.PI/2);
+      } else {
+        m_robotContainer.getArm().reachGoal(5, 0);
+      }
+    }*/
+  }
+
 
   @Override
   public void testInit() {
@@ -92,4 +104,12 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+
+  @Override
+  public void disabledInit() {
+    // This just makes sure that our simulation code knows that the motor's off.
+    m_robotContainer.getArm().stop();
+  }
+
 }
