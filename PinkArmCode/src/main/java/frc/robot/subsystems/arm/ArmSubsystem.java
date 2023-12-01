@@ -1,20 +1,6 @@
 package frc.robot.subsystems.arm;
 
-import org.littletonrobotics.junction.AutoLogOutput;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.REVPhysicsSim;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Robot;
 
 public class ArmSubsystem extends SubsystemBase  {
 
@@ -32,23 +18,78 @@ public class ArmSubsystem extends SubsystemBase  {
     armIO.updateInputs(inputs);
   }
 
-  public void setTarget(double length) {
-    throw new UnsupportedOperationException("unimplemented");
+  /**
+   * Gets the target pose of the arm, this may not be the current pose, see {@link #getCurrentPose() getCurrentPose()} for that
+   * 
+   * NOTE: Modifications to the returned pose will not affect the arm
+   * @return - The target pose of the arm
+   */
+  public ArmPose getTargetPose() {
+    return armIO.getTargetPose();
   }
 
-  // Actual implementation of the arm subsystem
-  public void setTargetPose(Pose3d targetPose, Pose2d currentPose) {
+  /**
+   * Gets the current pose of the arm, this may not be the target pose, see {@link #getTargetPose() getTargetPose()} for that
+   * @return - The current pose of the arm
+   */
+  public ArmPose getCurrentPose() {
+    return armIO.getCurrentPose();
   }
 
-  private Pose2d calcCurrentPose(double armLengthMeters, double shoulderAngleRad) {
-    throw new UnsupportedOperationException("unimplemented");
+  /**
+   * Sets the target pose of the arm
+   * @param pose - The target pose of the arm
+   */
+  public void setTargetPose(ArmPose pose) {
+    armIO.setTargetPose(pose);
   }
 
-  private boolean checkValidState(double targetShoulderAngle, double targetExtensionLength) {
-    throw new UnsupportedOperationException("unimplemented");
+  public void setTargetPose(double angleRad, double length) {
+    armIO.setTargetPose(new ArmPose(angleRad, length));
+  }
+
+  /**
+   * Sets the target angle in radians, the target extension length will stay the same
+   * @param angle
+   */
+  public void setTargetAngleRad(double angle) {
+    setTargetPose(getTargetPose().setAngleRad(angle));
+  }
+
+  /**
+   * Sets the target angle in degrees, the target extension length will stay the same
+   * @param angle - The target angle in degrees
+   */
+  public void setTargetAngleDeg(double angle) {
+    setTargetPose(getTargetPose().setAngleDeg(angle));
+  }
+
+  /**
+   * Sets the target extension length in meters, the target angle will stay the same
+   * @param length - The target extension length in meters
+   */
+  public void setTargetExtensionMeters(double length) {
+    setTargetPose(getTargetPose().setLength(length));
+  }
+  
+  /**
+   * Returns if the arm is close enough to the target pose to be considered at the target pose
+   * @return - If the arm is close enough
+   */
+  public boolean atTargetPose() {
+    return getTargetPose().isWithinError(getCurrentPose());
+  }
+
+  /**
+   * Returns if the arm is close enough to the target pose to be considered at the target pose
+   * @param pose - The pose to compare to
+   * @return - If the arm is close enough
+   */
+  public boolean atTargetPose(ArmPose pose) {
+    return pose.isWithinError(getCurrentPose());
   }
 
   public void stop() {
-    throw new UnsupportedOperationException("unimplemented");
+    armIO.stop();
   }
 }

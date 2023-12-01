@@ -25,5 +25,11 @@ public class ArmIOSparkMaxImpl implements ArmIO {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stop'");
     }
+
+    @Override
+    public ArmPose getCurrentPose() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCurrentPose'");
+    }
     
 }

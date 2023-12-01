@@ -5,9 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.ArmSimCommand;
+import frc.robot.subsystems.arm.ArmIOSimulationImpl;
+import frc.robot.subsystems.arm.ArmIOSparkMaxImpl;
+import frc.robot.subsystems.arm.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -18,12 +21,20 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ArmSubsystem armSubsystem;
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ArmSimCommand autoCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
+    if (RobotBase.isSimulation()) {
+      armSubsystem = new ArmSubsystem(new ArmIOSimulationImpl());
+    } else {
+      armSubsystem = new ArmSubsystem(new ArmIOSparkMaxImpl());
+    }
+    autoCommand = new ArmSimCommand(armSubsystem);
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -43,6 +54,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return autoCommand;
   }
 }

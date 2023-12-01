@@ -61,6 +61,8 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+    } else {
+      System.out.println("m_autonomousCommand is null");
     }
   }
 
@@ -87,6 +89,16 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+  }
+
+  @Override
+  public void simulationInit() {
+    autonomousInit();
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    
   }
 
   /** This function is called periodically during test mode. */

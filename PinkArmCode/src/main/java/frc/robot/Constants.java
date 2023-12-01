@@ -69,6 +69,11 @@ public final class Constants {
         public static final double maxVelElevator = 2.45; //m/s
         public static final double maxAccelElevator = 2.45; //m/s²
 
+        public static final double elevatorMaxVolts = 12.0; //volts
+        public static final double rotMaxVolts = 12.0; //volts
+
+        public static final double rotationalInertiaKgMetersSquared = 1; //TODO: find this value
+
         public static class Simulation {
             public static final double simWidth = 6;
             public static final double sinHeight = 6;

@@ -7,6 +7,8 @@ public interface ArmIO {
     public void setTargetPose(ArmPose pose);
 
     public ArmPose getTargetPose();
+
+    public ArmPose getCurrentPose();
   
     // public default void setShoulderVoltage(double volts) {}
 

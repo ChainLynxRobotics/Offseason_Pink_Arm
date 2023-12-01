@@ -4,13 +4,13 @@ import org.littletonrobotics.junction.AutoLog;
 
 @AutoLog
 public class ArmIOInputs {
-    public double shoulderAngleRad;
-    public double shoulderAppliedVolts;
-    public double shoulderCurrentDrawAmps;
-    public double shoulderAngularVelocityRadPerSec;
+    public double rotationalAngleRad;
+    public double rotationalAppliedVolts;
+    public double rotationalCurrentDrawAmps;
+    public double rotationalAngularVelocityRadPerSec;
 
-    public double shoulderMotorOneTemp;
-    public double shoulderMotorTwoTemp;
+    public double rotationalMotorOneTemp;
+    public double rotationalMotorTwoTemp;
 
     public boolean isFastShoulderAcceleration;
     public boolean isHighExtensionCurrentLimit;

@@ -1,6 +1,7 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import frc.robot.Constants.ArmConstants;
 
 public class ArmPose {
 
@@ -67,24 +68,39 @@ public class ArmPose {
     /**
      * Sets the length
      * @param length - the length of the arm in meters
+     * @return this ArmPos object
      */
-    public void setLength(double length) {
+    public ArmPose setLength(double length) {
         this.length = length;
+        return this;
     }
 
     /**
      * Sets the angle
      * @param angle - the angle of the arm in radians
+     * @return this ArmPos object
      */
-    public void setAngleRad(double angle) {
+    public ArmPose setAngleRad(double angle) {
         this.angle = angle;
+        return this;
     }
 
     /**
      * Sets the angle
      * @param angle - the angle of the arm in degrees
+     * @return this ArmPos object
      */
-    public void setAngleDeg(double angle) {
+    public ArmPose setAngleDeg(double angle) {
         this.angle = Math.toRadians(angle);
+        return this;
+    }
+
+    /**
+     * Checks if the arm is within the error of the target pose, error values are defined in {@link ArmConstants}
+     * @param pose - the pose to compare
+     * @return true if the arm is within the error of the compared pose
+     */
+    public boolean isWithinError(ArmPose pose) {
+        return Math.abs(pose.getAngleRad() - getAngleRad()) < ArmConstants.armAngleError && Math.abs(pose.getLength() - getLength()) < ArmConstants.armExtensionError;
     }
 }
