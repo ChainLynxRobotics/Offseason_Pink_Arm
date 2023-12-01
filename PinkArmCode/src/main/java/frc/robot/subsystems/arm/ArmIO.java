@@ -29,8 +29,7 @@ public interface ArmIO {
         public double shoulderCurrentDrawAmps;
         public double shoulderAngularVelocityRadPerSec;
 
-        public double shoulderMotorOneTemp;
-        public double shoulderMotorTwoTemp;
+        public double shoulderMotorTemp;
 
         public boolean isFastShoulderAcceleration;
         public boolean isHighExtensionCurrentLimit;

@@ -23,9 +23,9 @@ public class ArmSimCommand extends CommandBase {
       public void execute() {
         double input = counter % 180;
         if (input > 90) {
-            m_arm.setAngleInput((180 - input) * Math.PI/180);
+            m_arm.reachGoal(2, (180 - input) * Math.PI/180);
         } else {
-            m_arm.setAngleInput(input * Math.PI/180);
+            m_arm.reachGoal(2, input * Math.PI/180);
         }
         counter++;
       }
