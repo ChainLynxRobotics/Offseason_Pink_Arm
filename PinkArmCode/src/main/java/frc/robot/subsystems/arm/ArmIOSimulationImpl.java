@@ -3,7 +3,6 @@ package frc.robot.subsystems.arm;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -41,13 +40,6 @@ public class ArmIOSimulationImpl implements ArmIO {
           ArmConstants.kRotKp,
           ArmConstants.kRotKi,
           ArmConstants.kRotKd);
-    
-    private final ElevatorFeedforward feedforward =
-      new ElevatorFeedforward(
-          ArmConstants.kElevatorkS,
-          ArmConstants.kElevatorkG,
-          ArmConstants.kElevatorkV,
-          ArmConstants.kElevatorkA);
 
     private final ElevatorSim elevatorSim =
       new ElevatorSim(

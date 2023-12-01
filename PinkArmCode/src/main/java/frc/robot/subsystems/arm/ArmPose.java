@@ -5,8 +5,8 @@ import frc.robot.Constants.ArmConstants;
 
 public class ArmPose {
 
-    private static double length; // In meters
-    private static double angle; // In radians
+    private double length; // In meters
+    private double angle; // In radians
 
     public ArmPose(double angle, double length) {
         this.length = length;
