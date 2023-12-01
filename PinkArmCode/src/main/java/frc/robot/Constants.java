@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -31,11 +32,12 @@ public final class Constants {
     
     //placeholders, in meters
     public static class ArmConstants {
-        public static final double PIVOT_X_OFFSET = 2.5;
-        public static final double PIVOT_Y_OFFSET = 2.5;
-        public static final double INIT_ELEVATOR_LENGTH = 0.1;
-        public static final double minExtensionLength = 0.5;
-        public static final double maxExtensionLength = 1;
+        // In Simulation sub class
+        // public static final double PIVOT_X_OFFSET = 2.5;
+        // public static final double PIVOT_Y_OFFSET = 2.5;
+        // public static final double INIT_ELEVATOR_LENGTH = 0.1;
+        // public static final double minExtensionLength = 0.5;
+        // public static final double maxExtensionLength = 1;
 
         public static final double shoulderGearRatio = 100;
         public static final double sparkMaxTicksPerRev = 2048;
@@ -78,5 +80,15 @@ public final class Constants {
 
         public static final double maxVelElevator = 2.45; //m/s
         public static final double maxAccelElevator = 2.45; //m/s²
+
+        public static class Simulation {
+            public static final double simWidth = 6;
+            public static final double sinHeight = 6;
+            public static final double rootX = 3;
+            public static final double rootY = 0;
+            public static final double armLength = 0.1;
+            public static final double armWidth = 0.1;
+            public static final Color8Bit armColor = new Color8Bit(0, 0, 255);
+        }
     }
 }

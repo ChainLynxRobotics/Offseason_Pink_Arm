@@ -1,20 +1,30 @@
 package frc.robot.subsystems.arm;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.REVPhysicsSim;
+
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.arm.ArmIO.ArmIOInputs;
+import frc.robot.Robot;
 
-public class ArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase  {
 
   ArmIOInputs inputs = new ArmIOInputs();
-  ArmIO armIO;
-  
 
+  private final ArmIO armIO;
+
+  /** Creates a new ArmSubsystem. */
   public ArmSubsystem(ArmIO armIO) {
-    this.armIO = armIO; 
+    this.armIO = armIO;
   }
 
   @Override
@@ -22,45 +32,12 @@ public class ArmSubsystem extends SubsystemBase {
     armIO.updateInputs(inputs);
   }
 
-  public void setExtensionOutput(Joystick stick, int axis) {
-    armIO.setMotorOutput(stick.getRawAxis(axis));
-    System.out.println("axis value: " + stick.getRawAxis(axis));
+  public void setTarget(double length) {
+    throw new UnsupportedOperationException("unimplemented");
   }
 
-  public void reachGoal(double extension, double angle) {
-    armIO.setTargetExtensionLength(extension);
-    armIO.setTargetShoulderAngle(angle);
-  }
-
-
-  public Pose2d calcCurrentPose(double armLengthMeters, double shoulderAngleRad) {
-    double x = ArmConstants.PIVOT_X_OFFSET + armLengthMeters * Math.cos(shoulderAngleRad);
-    double y = ArmConstants.PIVOT_Y_OFFSET + armLengthMeters * Math.sin(shoulderAngleRad);
-
-    return new Pose2d(x, y, new Rotation2d(shoulderAngleRad));
-  }
-
-  public ArmPositions calcTargetPose(Pose2d target) {
-    double x = target.getX() - ArmConstants.PIVOT_X_OFFSET;
-    double y = target.getY() - ArmConstants.PIVOT_Y_OFFSET;
-    double extensionDist = Math.hypot(x, y);
-
-    return new ArmPositions(Math.asin(y / extensionDist), extensionDist);
-  }
-
-  public boolean atTarget(Pose2d target) {
-    if (Math.abs(calcTargetPose(target).getExtensionLengthMeters() - inputs.extensionPositionMeters) < ArmConstants.armExtensionError &&
-        Math.abs(calcTargetPose(target).getShoulderAngleRad() - inputs.shoulderAngleRad) < ArmConstants.armAngleError) {
-          return true;
-    }
-    return false;
-  }
-  public void periodicSim() {
-    
-  }
-
-  public ArmIOInputs getInputs() {
-    return inputs;
+  // Actual implementation of the arm subsystem
+  public void setTargetPose(Pose3d targetPose, Pose2d currentPose) {
   }
 
   public void stop() {
@@ -69,5 +46,9 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void close() throws Exception {
     mech2d.close();
+  }
+
+  public void stop() {
+    throw new UnsupportedOperationException("unimplemented");
   }
 }
