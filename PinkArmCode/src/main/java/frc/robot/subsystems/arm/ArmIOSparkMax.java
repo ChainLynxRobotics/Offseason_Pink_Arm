@@ -24,6 +24,7 @@ public class ArmIOSparkMax implements ArmIO {
 
         extension1.getEncoder().setPositionConversionFactor(ArmConstants.sparkMaxEncoderRotPerMeter);
         rotation.getEncoder().setPositionConversionFactor(ArmConstants.rotConversionFactor);
+        rotation.getEncoder().setVelocityConversionFactor(Math.PI/30);
 
         extension2.follow(extension1);
     }
@@ -32,6 +33,16 @@ public class ArmIOSparkMax implements ArmIO {
     @Override
     public void updateInputs(ArmIOInputs inputs) {
         inputs.shoulderAngleRad = rotation.getEncoder().getPosition();
+        inputs.shoulderAngularVelocityRadPerSec = rotation.getEncoder().getVelocity();
+
+        inputs.extensionPositionMeters = extension1.getEncoder().getPosition();
+        inputs.extensionVelocityMetersPerSec = extension1.getEncoder().getVelocity();
+
+        inputs.shoulderMotorTemp = rotation.getMotorTemperature();
+        inputs.extensionMotorOneTemp = extension1.getMotorTemperature();
+        inputs.extensionMotorTwoTemp = extension2.getMotorTemperature();
+
+
         //set other inputs
     }
 

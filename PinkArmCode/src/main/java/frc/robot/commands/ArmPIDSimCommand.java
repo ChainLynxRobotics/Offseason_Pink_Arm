@@ -23,9 +23,15 @@ public class ArmPIDSimCommand extends CommandBase {
       @Override
       public void execute() {
         m_arm.reachGoal(extension, angle);
+        double curAngle = m_arm.getInputs().shoulderAngleRad;
+        double curExtension = m_arm.getInputs().extensionPositionMeters;
 
-        System.out.println("current: " + m_arm.getInputs().extensionPositionMeters + " " + m_arm.getInputs().shoulderAngleRad);
-        System.out.println("target: " + new Pose2d(extension*Math.cos(angle), extension*Math.sin(angle), new Rotation2d(angle)));
+        System.out.println("current: " + toPose(curAngle, curExtension));
+        System.out.println("target: " + toPose(angle, extension) + "\n");
+      }
+
+      public Pose2d toPose(double angle, double extension) {
+        return new Pose2d(extension*Math.cos(angle), extension*Math.sin(angle), new Rotation2d(angle));
       }
 
       @Override
