@@ -34,7 +34,7 @@ public class ArmSimCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("ArmSimCommand execute");
-    subsystem.setTargetPose(ArmPose.getPosDeg(45, 1));
+    subsystem.setTargetPose(ArmPose.getPosDeg(45, 10));
   }
 
   // Called once the command ends or is interrupted.

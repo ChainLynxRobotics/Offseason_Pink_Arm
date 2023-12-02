@@ -98,9 +98,9 @@ public class ArmIOSimulationImpl implements ArmIO {
         elevatorSim.update(0.02);
         rotationSim.update(0.02);
 
-        // Update the visualization
-        m_arm.setAngle(inputs.rotationalAngleRad);
+        m_arm.setAngle(inputs.rotationalAngleRad*180/Math.PI);
         m_arm.setLength(inputs.extensionPositionMeters);
+        
 
         System.out.printf("Extension[Actual: %.3f, Target: %.3f] Rotation[Actual: %.3f, Target: %.3f]\n", 
             inputs.extensionPositionMeters, getTargetPose().getLength(),

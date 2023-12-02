@@ -78,7 +78,7 @@ public final class Constants {
             public static final double simWidth = 6;
             public static final double sinHeight = 6;
             public static final double rootX = 3;
-            public static final double rootY = 0;
+            public static final double rootY = 3;
             public static final double armLength = 0.2;
             public static final double armWidth = 0.1;
             public static final Color8Bit armColor = new Color8Bit(0, 0, 255);
